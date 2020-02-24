@@ -32,9 +32,16 @@ def gen(camera):
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
+    print ('video_feed pid {}', os.getpid())
     return Response(gen(Camera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@app.route('/video_feed1')
+def video_feed1():
+    """Video streaming route. Put this in the src attribute of an img tag."""
+    print ('video_feed1, pid {}', os.getpid())
+    return Response(gen(Camera()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', threaded=True)

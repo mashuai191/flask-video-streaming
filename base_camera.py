@@ -1,5 +1,7 @@
 import time
 import threading
+import os
+
 try:
     from greenlet import getcurrent as get_ident
 except ImportError:
@@ -20,6 +22,7 @@ class CameraEvent(object):
         """Invoked from each client's thread to wait for the next frame."""
         ident = get_ident()
         if ident not in self.events:
+            print ('pid ', os.getpid(), 'tid ', threading.get_ident())
             # this is a new client
             # add an entry for it in the self.events dict
             # each entry has two elements, a threading.Event() and a timestamp
@@ -59,6 +62,7 @@ class BaseCamera(object):
 
     def __init__(self):
         """Start the background camera thread if it isn't running yet."""
+        print('Camera init.')
         if BaseCamera.thread is None:
             BaseCamera.last_access = time.time()
 
